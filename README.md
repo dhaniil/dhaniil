@@ -1,4 +1,4 @@
-Dhaniil is passionate about the potential of Artificial Intelligence and its diverse applications. They are currently exploring React, TypeScript, and BaaS, aiming to enhance their skills and develop innovative projects.
+Dhaniil is passionate about the potential of Artificial Intelligence and its diverse applications. I'am currently exploring React, TypeScript, and BaaS, aiming to enhance their skills and develop innovative projects.
 
 
 
