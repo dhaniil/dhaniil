@@ -2,17 +2,16 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-
-
+import Navbar from "@/components/navbar";
+import { Toaster } from "@/components/ui/sonner";
 const defaultUrl = process.env.NEXT_PUBLIC_APP_URL
   ? `https://${process.env.NEXT_PUBLIC_APP_URL}`
   : "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Laznology - Kodenee Programinyaan",
+  description: "%s | Laznology Portfolio",
 };
 
 const geistSans = Geist({
@@ -28,21 +27,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased bg-gray-100 dark:bg-zinc-800 min-h-screen`}>
+      <body className={`${geistSans.className} antialiased bg-background min-h-screen`}>
+        {/* @ts-expect-error Server Component - next-themes is not yet fully typed for app router */}
+
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          forcedTheme="light"
           disableTransitionOnChange
         >
           <div className="min-h-screen py-4 px-2 md:py-6 md:px-4 lg:py-8 lg:px-8">
-            <div className="max-w-full border rounded-md border-white h-[calc(100vh-2rem)] md:h-[calc(100vh-3rem)] lg:h-[calc(100vh-4rem)]">
+            <div className="max-w-full border rounded-md border-border">
               <div className="p-4">
                 <Navbar />
               </div>
-              <main className="border-t border-white p-4 md:p-6 lg:p-8">
+              <main className="border-t border-border p-4 md:p-6 lg:p-8 flex justify-center items-center">
                 {children}
               </main>
+              <Toaster position="bottom-center" richColors />
             </div>
           </div>
         </ThemeProvider>
