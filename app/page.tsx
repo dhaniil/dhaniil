@@ -1,51 +1,41 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
-import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
-import Link from "next/link";
+"use client"
+import {useGSAP} from "@gsap/react"
+import gsap from "gsap"
+import { useRef } from "react"
+import { ScrollTrigger } from "gsap/all"
+import { SplitText } from "gsap/all"
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText)
 
-export default function Home() {
-  return (
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex-1 w-full flex flex-col gap-20 items-center">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center font-semibold">
-              <Link href={"/"}>Next.js Supabase Starter</Link>
-              <div className="flex items-center gap-2">
-                <DeployButton />
-              </div>
+export default function Home(){
+const container = useRef<HTMLDivElement>(null)
+const ball = useRef<HTMLDivElement>(null)
+const text = useRef<HTMLDivElement>(null)
+
+useGSAP(() => {
+    gsap.fromTo(
+        container.current,
+        {y:-100, opacity: 0},
+        {y:0, opacity: 1, duration:1.5, ease:"power2.out"}
+    )
+    
+    const split = SplitText.create(text.current, {
+    type: "words"
+    })
+
+    gsap.from(split.words, {
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.1,
+    })
+})
+
+return (
+    <div className="relative overflow-hidden">
+        <div className="flex items-center justify-center h-full relative z-10">
+            <div ref={text} className="text text-center ">
+                Belajar animasi GSAP 
             </div>
-            {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
-          </div>
-        </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <Hero />
-          <main className="flex-1 flex flex-col gap-6 px-4">
-            <h2 className="font-medium text-xl mb-4">Next steps</h2>
-            {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-          </main>
         </div>
-
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              Supabase
-            </a>
-          </p>
-          <ThemeSwitcher />
-        </footer>
-      </div>
-    </main>
-  );
+    </div>
+)
 }
