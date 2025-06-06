@@ -82,10 +82,10 @@ export function AuthModal({triggerText = "Sign In", children}: AuthModalProps) {
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold">
-                        Welcome to Guestbook
+                        (=^･ω･^=) Welcome! 
                     </DialogTitle>
                     <DialogDescription className="text-gray-600">
-                        Sign in to leave your signature and connect with others
+                        Sign in to leave your signature
                     </DialogDescription>
                 </DialogHeader>
 
