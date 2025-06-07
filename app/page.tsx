@@ -103,40 +103,60 @@ const tech2 = [
 ]
 
 return (
-    <div className="h-full w-full flex-col flex md:flex-row gap-4 overflow-hidden">
-        <div className="fixed top-90 left-50  text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg">
+    <div className="h-full w-full flex-col flex lg:flex-row gap-4 overflow-hidden relative">
+        {/* Desktop Ornaments */}
+        <div className="hidden md:block fixed top-90 left-50 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg">
             <span className="font-light text-xl">&lt; &gt; ~/$ git commit -m "dev" &lt; /&gt;</span>
         </div>
-        <div onMouseEnter={handleMouseEnter} ref={detail1} className="fixed bottom-80 left-140 text-gray-400 -skew-y-6 bg-gray-500/10 p-1 rounded-lg">
+        <div onMouseEnter={handleMouseEnter} ref={detail1} className="hidden md:block fixed bottom-80 left-140 text-gray-400 -skew-y-6 bg-gray-500/10 p-1 rounded-lg">
             <span className="font-light text-xl">&lt; &gt; ~/$ npm run build &lt; /&gt;</span>
         </div>
-        <div className="fixed top-15 left-10 text-zinc-700 -z-10 ">
+        <div className="hidden md:block fixed top-15 left-10 text-zinc-700 -z-10">
             <span className="font-light text-9xl font-antonio">~$ ./init</span>
         </div>
 
-        {/* <div className="fixed top-20 right-10 text-gray-300 -z-10">
-            <span className="font-light text-9xl font-jetbrains">(≧◡≦)</span>
-        </div> */}
-        <Clock />
+        {/* Mobile Ornaments */}
+        <div className="block md:hidden fixed top-60 left-8 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg text-xs">
+            <span className="font-light">&lt; git commit -m "dev" &gt;</span>
+        </div>
+        <div className="block md:hidden fixed bottom-50 right-8 text-gray-400 skew-y-6 bg-gray-500/10 p-1 rounded-lg text-xs">
+            <span className="font-light">&lt; npm run build &gt;</span>
+        </div>
+        <div className="block md:hidden fixed top-8 right-4 text-zinc-700 -z-10">
+            <span className="font-light text-2xl font-antonio">~$ ./init</span>
+        </div>
+
+        <div className="hidden md:block">
+            <Clock />
+        </div>
+
+        <div className="block md:hidden fixed bottom-20 left-4 text-gray-300">
+            <span className="font-light text-8xl font-jetbrains">
+                {new Date().getFullYear()}
+            </span>
+        </div>
         
-        <div className="flex w-full items-center justify-center min-h-full">
-            <div className="relative flex flex-col w-auto">
-                <h2 ref={text1} className="line-clamp-2 text-4xl text-antonio">Kodenee </h2>
-                <h2 ref={text2} className="text-7xl font-bold font-antonio">Programinyaan <span className="font-bold text-xl">ヾ(｡･ω･｡)</span></h2> 
-                <span ref={text3} className="font-base text-xl flex items-center gap-2">
-                    Are you curious about my code?
+        <div className="flex w-full items-center justify-center min-h-full px-4">
+            <div className="relative flex flex-col w-auto text-center lg:text-left">
+                <h2 ref={text1} className="line-clamp-2 text-2xl md:text-4xl text-antonio">Kodenee </h2>
+                <h2 ref={text2} className="text-4xl md:text-7xl font-bold font-antonio">
+                    Programinyaan 
+                    <span className="font-bold text-lg md:text-xl block md:inline">ヾ(｡･ω･｡)</span>
+                </h2> 
+                <span ref={text3} className="font-base text-lg md:text-xl flex flex-col md:flex-row items-center gap-2 mt-4">
+                    <span>Are you curious about my code?</span>
                     <div className="relative group">
-                        <a  ref={text4} href="/projects" className="relative z-10 group-hover:text-white transition-all duration-300 font-bold hover:scale-105 ">Click here</a>
+                        <a ref={text4} href="/projects" className="relative z-10 group-hover:text-white transition-all duration-300 font-bold hover:scale-105">Click here</a>
                         <div className="absolute inset-0 h-full w-0 bg-black transition-all duration-300 group-hover:w-full inline-block"></div>
                     </div>
                 </span>
-                <div className="bg-gradient-to-r from-white/10 to-transparent absolute h-full w-full backdrop-blur-xs inset-0 top-0 left-10 -z-20"></div>
+                <div className="bg-gradient-to-r from-white/10 to-transparent absolute h-full w-full backdrop-blur-xs inset-0 top-0 left-0 md:left-10 -z-20"></div>
             </div>
         </div>        
-        <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-center flex-col lg:flex-row gap-4 lg:gap-0 mt-8 lg:mt-0 pb-8 lg:pb-0">
             <InfiniteScroll
-                width="20rem"
-                maxHeight="400px"
+                width="16rem"
+                maxHeight="300px"
                 items={tech1}
                 itemMinHeight={65}
                 isTilted={false}
@@ -148,8 +168,8 @@ return (
                 negativeMargin="-0.5em"
             />
             <InfiniteScroll
-                width="20rem"
-                maxHeight="400px"
+                width="16rem"
+                maxHeight="300px"
                 items={tech2}
                 itemMinHeight={65}
                 isTilted={false}
