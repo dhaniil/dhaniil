@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Antonio, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/footer";
+
 const defaultUrl = process.env.NEXT_PUBLIC_APP_URL
   ? `https://${process.env.NEXT_PUBLIC_APP_URL}`
   : "http://localhost:3000";
@@ -14,8 +16,21 @@ export const metadata: Metadata = {
   description: "%s | Laznology Portfolio",
 };
 
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  display: "swap",
+  subsets: ["latin"],
+});
+
+const antonio = Antonio({
+  variable: "--font-antonio",
   display: "swap",
   subsets: ["latin"],
 });
@@ -27,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased bg-background min-h-screen`}>
+      <body className={`${geistSans.className} ${antonio.variable} antialiased bg-background min-h-screen`}>
         {/* @ts-expect-error Server Component - next-themes is not yet fully typed for app router */}
 
         <ThemeProvider
@@ -36,14 +51,17 @@ export default function RootLayout({
           forcedTheme="light"
           disableTransitionOnChange
         >
-          <div className="min-h-screen py-4 px-2 md:py-6 md:px-4 lg:py-8 lg:px-8">
-            <div className="max-w-full border rounded-md border-border">
-              <div className="p-4">
+          <div className="h-screen py-4 px-2 md:py-6 md:px-4 lg:py-8 lg:px-8 flex flex-col">
+            <div className="flex-1 border rounded-md border-border flex flex-col overflow-hidden">
+              <div className="p-4 bg-background border-b border-border flex-shrink-0">
                 <Navbar />
               </div>
-              <main className="border-t border-border p-4 md:p-6 lg:p-8 flex justify-center items-center">
-                {children}
+              <main className="flex-1 overflow-hidden">
+                <div className="h-full overflow-y-auto scrollable-content p-4 md:p-6 lg:p-8">
+                  {children}
+                </div>
               </main>
+              <Footer />
               <Toaster position="bottom-center" richColors />
             </div>
           </div>

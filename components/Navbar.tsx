@@ -6,6 +6,7 @@ import ProfileNavbar from "./auth/profile-navbar";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
+import Sidebar from "@/components/sidebar";
 
 const navItems = [
   {
@@ -49,12 +50,12 @@ export default function Navbar() {
   }, [supabase]);
 
   return (
-    <div className="flex justify-between items-center mx-auto px-3 py-2">
-      <Link href="/" className="flex items-center gap-3 group">
-        <div className="p-2 bg-black rounded-lg group-hover:scale-110 transition-transform duration-300">
-          <ChartBarBig className="text-white" size={24} />
+    <div className="flex bg-background justify-between items-center mx-auto px-3 py-2 z-50">
+
+        <div className="p-2  rounded-lg  transition-transform duration-300">
+            <Sidebar />
         </div>
-      </Link>
+
       
       <nav className="flex gap-1 items-center">
         {navItems.map((item) => (

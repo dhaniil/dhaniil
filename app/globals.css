@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Fjalla+One&display=swap');
 
 @theme {
   --color-background: oklch(from white l c h);
@@ -23,6 +24,20 @@
   --radius: 0.5rem;
 }
 
+
+
+.font-antonio {
+  font-family: var(--font-antonio), 'Antonio', 'Arial Narrow', sans-serif;
+}
+
+.font-fjalla {
+  font-family: 'Fjalla One', 'Arial Black', sans-serif;
+}
+
+.font-jetbrains {
+  font-family: 'JetBrains Mono', monospace;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -30,4 +45,43 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide scrollbar for webkit browsers */
+.scrollable-content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Alternative: Show thin scrollbar on hover */
+.scrollable-content-hover {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.scrollable-content-hover::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-content-hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-content-hover::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.scrollable-content-hover:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.scrollable-content-hover:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
 }
