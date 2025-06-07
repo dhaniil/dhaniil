@@ -77,7 +77,7 @@ return (
             </div>
         </div>
         <div className="flex border w-full items-center justify-center">
-            Portofolio v2 under development ;-;
+            Portofolio v2 under development 
         </div>
     </div>
 )

@@ -21,6 +21,7 @@ export function AuthModal({triggerText = "Sign In", children}: AuthModalProps) {
     const [isLoading, setIsLoading] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const supabase = createClient();
+    
 
     async function signInWithGitHub() {
         setIsLoading('github');

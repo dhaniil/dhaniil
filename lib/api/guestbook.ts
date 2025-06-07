@@ -1,3 +1,4 @@
+
 import { createClient } from "../supabase/client";
 import { Guestbook } from "@/types/guestbook";
 
@@ -13,4 +14,23 @@ export async function fetchGuestbooks() {
         return [];
     }
     return data || [];
+}
+
+
+export async function createGuestbook(message: string, name: string, avatarUrl: string) {
+  const supabase = createClient();
+  
+  const { data, error } = await supabase
+    .from('guestbooks')
+    .insert(
+      {
+        message: message,
+        name: name,
+        avatar_url: avatarUrl,
+        created_at: new Date().toISOString()
+      }
+    );
+
+  if (error) throw error;
+  return data;
 }

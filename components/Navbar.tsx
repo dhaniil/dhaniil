@@ -12,14 +12,14 @@ const navItems = [
     title: "Home",
     href: "/"
   },
-  {
-    title: "About",
-    href: "/about"
-  },
-  {
-    title: "Project",
-    href: "/project"
-  },
+  // {
+  //   title: "About",
+  //   href: "/about"
+  // },
+  // {
+  //   title: "Project",
+  //   href: "/project"
+  // },
   {
     title: "Guestbook",
     href: "/guestbook"
