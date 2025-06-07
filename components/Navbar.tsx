@@ -1,5 +1,4 @@
 "use client";
-import { ChartBarBig } from "lucide-react";
 import Link from "next/link";
 import { AuthModal } from "./auth-modal";
 import ProfileNavbar from "./auth/profile-navbar";

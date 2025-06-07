@@ -1,7 +1,7 @@
 "use client"
 import {useGSAP} from "@gsap/react"
 import gsap from "gsap"
-import { useRef, useEffect, useState } from "react"
+import { useRef} from "react"
 import { ScrollTrigger } from "gsap/all"
 import { SplitText } from "gsap/all"
 import InfiniteScroll from "@/components/reactbits/InfiniteScroll/InfiniteScroll"
@@ -10,8 +10,6 @@ import Clock from "@/components/clock"
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText)
 
 export default function Home(){
-const container = useRef<HTMLDivElement>(null)
-const [currentTime, setCurrentTime] = useState(new Date())
 
 const text1 = useRef<HTMLDivElement>(null)
 const text2 = useRef<HTMLDivElement>(null)
@@ -103,21 +101,18 @@ const tech2 = [
 ]
 
 return (
-    <div className="h-full w-full flex-col flex lg:flex-row gap-4 overflow-hidden relative">
-        {/* Desktop Ornaments */}
+    <div className="h-full w-full flex-col flex lg:flex-row gap-4 overflow-hidden relative">        {/* Desktop Ornaments */}
         <div className="hidden md:block fixed top-90 left-50 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg">
-            <span className="font-light text-xl">&lt; &gt; ~/$ git commit -m "dev" &lt; /&gt;</span>
+            <span className="font-light text-xl">&lt; &gt; ~/$ git commit -m &quot;dev&quot; &lt; /&gt;</span>
         </div>
         <div onMouseEnter={handleMouseEnter} ref={detail1} className="hidden md:block fixed bottom-80 left-140 text-gray-400 -skew-y-6 bg-gray-500/10 p-1 rounded-lg">
             <span className="font-light text-xl">&lt; &gt; ~/$ npm run build &lt; /&gt;</span>
         </div>
         <div className="hidden md:block fixed top-15 left-10 text-zinc-700 -z-10">
             <span className="font-light text-9xl font-antonio">~$ ./init</span>
-        </div>
-
-        {/* Mobile Ornaments */}
+        </div>        {/* Mobile Ornaments */}
         <div className="block md:hidden fixed top-60 left-8 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg text-xs">
-            <span className="font-light">&lt; git commit -m "dev" &gt;</span>
+            <span className="font-light">&lt; git commit -m &quot;dev&quot; &gt;</span>
         </div>
         <div className="block md:hidden fixed bottom-50 right-8 text-gray-400 skew-y-6 bg-gray-500/10 p-1 rounded-lg text-xs">
             <span className="font-light">&lt; npm run build &gt;</span>

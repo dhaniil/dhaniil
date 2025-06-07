@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} ${antonio.variable} antialiased bg-background min-h-screen`}>
+      <body className={`${geistSans.className} ${antonio.variable} ${jetBrainsMono.variable} antialiased bg-background min-h-screen`}>
         {/* @ts-expect-error Server Component - next-themes is not yet fully typed for app router */}
 
         <ThemeProvider
