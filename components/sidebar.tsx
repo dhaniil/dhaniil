@@ -100,12 +100,12 @@ export default function Sidebar(){
             </div>
 
             <div ref={sidebarPanel}
-                 className="absolute left-0 top-0 h-full w-[30vw] lg:w-[40vw] bg-black rounded-lg z-30"
+                 className="absolute left-0 top-0 h-full w-[70vw] lg:w-[40vw] bg-black rounded-lg z-30 overflow-hidden"
             >
-                <div className={"absolute bottom-0 left-0 text-white/20"}>
-                    <span className={"text-9xl"}>LZ</span>
+                <div className={"absolute -bottom-6 left-0 text-white/20"}>
+                    <span className={"text-9xl lg:text-9xl"}>LZ</span>
                 </div>
-                <div className={"absolute bottom-0 right-0 text-white/20"}>
+                <div className={"hidden lg:block absolute bottom-0 right-0 text-white/20"}>
                     <span className={"text-6xl"}>{"</>"}</span>
                 </div>
                 <div className={"relative py-6 px-4"}>
@@ -135,7 +135,7 @@ export default function Sidebar(){
                         {menuList.map((item, index) => (
                             <Link onMouseEnter={() => onHover(index)} key={index} href={item.href}
                                   className="relative flex text-white py-2 px-3 gap-2 group hover:text-black rounded w-fit">
-                                <span className={"text-3xl lg:text-7xl font-jetbrains z-10"}>
+                                <span className={"text-xl lg:text-7xl font-jetbrains z-10"}>
                                     {item.menu}
                                 </span>
                                 <div className={"absolute inset-0 w-0 left-0 h-full group-hover:w-full group-hover:bg-white transition-all duration-500 z-0"}></div>
