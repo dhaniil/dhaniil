@@ -44,7 +44,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.className} ${antonio.variable} ${jetBrainsMono.variable} antialiased bg-background min-h-screen`}>
         {/* @ts-expect-error Server Component - next-themes is not yet fully typed for app router */}
-
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -52,12 +51,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="h-screen py-4 px-2 md:py-6 md:px-4 lg:py-8 lg:px-8 flex flex-col">
-            <div className="flex-1 border rounded-md border-border flex flex-col overflow-hidden">
+            <div className="flex-1 border rounded-xl border-border flex flex-col overflow-hidden relative">
               <div className="p-4 bg-background border-b border-border flex-shrink-0">
                 <Navbar />
               </div>
               <main className="flex-1 overflow-hidden">
-                <div className="h-full overflow-y-auto scrollable-content p-4 md:p-6 lg:p-8">
+                <div className="h-full overflow-y-auto scrollable-content">
                   {children}
                 </div>
               </main>
