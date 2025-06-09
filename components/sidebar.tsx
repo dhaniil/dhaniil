@@ -17,7 +17,6 @@ const menuList = [
     
 
 export default function Sidebar(){
-    const [open, setOpen] = useState<boolean>(false);
     const backdrop = useRef<HTMLDivElement>(null);
     const sidebarPanel = useRef<HTMLDivElement>(null);
     const [hovered, setHovered] = useState<boolean>(false)
@@ -42,7 +41,6 @@ export default function Sidebar(){
     })
 
     const handleOpen = () => {
-        setOpen(true);
         gsap.to(backdrop.current, {
             opacity: 1,
             visibility: "visible",
@@ -58,7 +56,6 @@ export default function Sidebar(){
     }
 
     const handleClose = () => {
-        setOpen(false);
         gsap.to(backdrop.current, {
             opacity: 0,
             duration: 0.5,
