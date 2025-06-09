@@ -1,40 +1,153 @@
-import {Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader} from "@/components/ui/sheet";
-import { ChartBarBig } from "lucide-react";
+"use client"
+import Link from "next/link";
+import {useEffect, useRef, useState} from "react";
+import {useGSAP} from "@gsap/react"
+import gsap from "gsap";
+import {Icon} from "@iconify/react"
+import {SplitText} from "gsap/all";
+gsap.registerPlugin(SplitText)
 
-export default function Sidebar() {
+const menuList = [
+    { menu: "Home", href: "/", pageNumber: "(=^･ω･^=)" },
+    { menu: "About", href: "/about", pageNumber: "(=^-ω-^=)" },
+    { menu: "Guestbook", href: "/guestbook", pageNumber: "(ฅ^•ﻌ•^ฅ)" },
+    { menu: "Blog", href: "/blog", pageNumber: "(=①ω①=)" }
+];
+
+    
+
+export default function Sidebar(){
+    const [open, setOpen] = useState<boolean>(false);
+    const backdrop = useRef<HTMLDivElement>(null);
+    const sidebarPanel = useRef<HTMLDivElement>(null);
+    const [hovered, setHovered] = useState<boolean>(false)
+    const kawaiiRef = useRef<(HTMLSpanElement | null)[]>([]);
+
+
+
+    useEffect(() => {
+        document.addEventListener('escape', handleClose);
+        return () => document.removeEventListener('escape', handleClose);
+    }, []);
+
+    useGSAP(() => {
+        gsap.set(backdrop.current, {
+            opacity: 0,
+            visibility: "hidden"
+        })
+
+        gsap.set(sidebarPanel.current, {
+            x: -2000
+        })
+    })
+
+    const handleOpen = () => {
+        setOpen(true);
+        gsap.to(backdrop.current, {
+            opacity: 1,
+            visibility: "visible",
+            duration: 1,
+            ease: "power2.out"
+        })
+
+        gsap.to(sidebarPanel.current, {
+            x: 0,
+            duration: 1,
+            ease: "power2.out"
+        })
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        gsap.to(backdrop.current, {
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.out",
+            onComplete: () => {
+                gsap.set(backdrop.current, { visibility: "hidden" })
+            }
+        })
+
+        gsap.to(sidebarPanel.current, {
+            x: -2000,
+            duration: 1,
+            ease: "power2.out"
+        })
+    }
+    
+    const onHover = (index: number) => {
+        if(!kawaiiRef.current[index]) return;
+        const split = SplitText.create(kawaiiRef.current[index], {type:"chars"})
+        gsap.from(split.chars, {
+            opacity: 0,
+            ease: "back.out(1.7)",
+            scale: 2,
+            stagger: 0.05,
+            delay: 0.3
+        })
+    }
+
     return (
-        <Sheet>
-            <SheetTrigger asChild>
-                <button className="p-2 text-white rounded-lg">
-                    <ChartBarBig className="text-black" size={24} />
-                </button>
-            </SheetTrigger>
-            <SheetContent 
-                side="left" 
-                className="w-64 p-0 bg-black text-white border-r border-gray-800 sm:max-w-none"
-                style={{
-                    position: 'absolute',
-                    left: '0',
-                    top: '0',
-                    width: '16rem',
-                    height: '100%',
-                    zIndex: 40,
-                    borderTopLeftRadius: '6px',
-                    borderBottomLeftRadius: '0px'
-                }}
+        <div>
+            <button onClick={handleOpen} className={"cursor-pointer z-[999] text-black"}>
+                <Icon icon="line-md:menu-fold-left" width="32" height="32" className="text-black" />
+            </button>
+
+            <div ref={backdrop}
+                 className="absolute inset-0 w-full h-full bg-white/10 backdrop-blur-sm z-30"
+                 onClick={handleClose}
             >
-                <SheetHeader className="p-4 pb-2">
-                    <SheetTitle className="text-xl font-bold text-left text-white">Discover</SheetTitle>
-                </SheetHeader>
-                
-                <div className="p-4 pt-2">
-                    <p>OTW</p>
+            </div>
+
+            <div ref={sidebarPanel}
+                 className="absolute left-0 top-0 h-full w-[30vw] lg:w-[40vw] bg-black rounded-lg z-30"
+            >
+                <div className={"absolute bottom-0 left-0 text-white/20"}>
+                    <span className={"text-9xl"}>LZ</span>
                 </div>
-                
-                <div className="absolute bottom-4 left-4">
-                    <span className="font-antonio text-9xl text-gray-500">{new Date().getFullYear()}</span>
+                <div className={"absolute bottom-0 right-0 text-white/20"}>
+                    <span className={"text-6xl"}>{"</>"}</span>
                 </div>
-            </SheetContent>
-        </Sheet>
+                <div className={"relative py-6 px-4"}>
+                    <div className={" flex justify-between"}>
+                        <div className={"items-center"}>
+                            <span className={"text-base text-center font-light text-white/60 font-jetbrains"}>Discover</span>
+                        </div>
+                        <button
+                            onClick={handleClose}
+                            onMouseEnter={() => setHovered(true)}
+                            onMouseLeave={() => setHovered(false)}
+                            className="text-white items-center cursor-pointer "
+                        >
+                            <Icon
+                                icon={
+                                    hovered
+                                        ? "line-md:close-to-menu-transition"
+                                        : "line-md:arrow-close-right"
+                                }
+                                height="32"
+                            />
+                        </button>
+                    </div>
+
+
+                    <div className="space-y-2">
+                        {menuList.map((item, index) => (
+                            <Link onMouseEnter={() => onHover(index)} key={index} href={item.href}
+                                  className="relative flex text-white py-2 px-3 gap-2 group hover:text-black rounded w-fit">
+                                <span className={"text-3xl lg:text-7xl font-jetbrains z-10"}>
+                                    {item.menu}
+                                </span>
+                                <div className={"absolute inset-0 w-0 left-0 h-full group-hover:w-full group-hover:bg-white transition-all duration-500 z-0"}></div>
+                                <span ref={el => { kawaiiRef.current[index] = el }}
+                                      className={"hidden group-hover:block text-lg transform-all duration-300 z-10"}>{item.pageNumber}</span>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     )
 }
