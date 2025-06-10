@@ -17,13 +17,16 @@ interface InfiniteScrollProps {
   // ----- Items Prop -----
   items?: InfiniteScrollItem[]; // Array of items with { content: ... }
   itemMinHeight?: number; // Fixed height for each item
+  itemMinWidth?: number; // Fixed width for each item (horizontal)
+  // ----- Direction Props -----
+  direction?: "vertical" | "horizontal"; // Scroll direction
   // ----- Tilt Props -----
   isTilted?: boolean; // Whether the container is in "skewed" perspective
   tiltDirection?: "left" | "right"; // tiltDirection: "left" or "right"
   // ----- Autoplay Props -----
   autoplay?: boolean; // Whether it should automatically scroll
   autoplaySpeed?: number; // Speed (pixels/frame approx.)
-  autoplayDirection?: "down" | "up"; // "down" or "up"
+  autoplayDirection?: "down" | "up" | "left" | "right"; // Direction for autoplay
   pauseOnHover?: boolean; // Pause autoplay on hover
 }
 
@@ -33,6 +36,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   negativeMargin = "-0.5em",
   items = [],
   itemMinHeight = 150,
+  itemMinWidth = 150,
+  direction = "vertical",
   isTilted = false,
   tiltDirection = "left",
   autoplay = false,
@@ -49,7 +54,6 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       ? "rotateX(20deg) rotateZ(-20deg) skewX(20deg)"
       : "rotateX(20deg) rotateZ(20deg) skewX(-20deg)";
   };
-
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -61,17 +65,33 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     const firstItem = divItems[0];
     const itemStyle = getComputedStyle(firstItem);
-    const itemHeight = firstItem.offsetHeight;
-    const itemMarginTop = parseFloat(itemStyle.marginTop) || 0;
-    const totalItemHeight = itemHeight + itemMarginTop;
-    const totalHeight =
-      itemHeight * items.length + itemMarginTop * (items.length - 1);
+    
+    // Determine dimensions based on direction
+    const isHorizontal = direction === "horizontal";
+    let itemDimension: number;
+    let itemMargin: number;
+    
+    if (isHorizontal) {
+      itemDimension = firstItem.offsetWidth;
+      itemMargin = parseFloat(itemStyle.marginLeft) || 0;
+    } else {
+      itemDimension = firstItem.offsetHeight;
+      itemMargin = parseFloat(itemStyle.marginTop) || 0;
+    }
+    
+    const totalItemDimension = itemDimension + itemMargin;
+    const totalDimension = itemDimension * items.length + itemMargin * (items.length - 1);
 
-    const wrapFn = gsap.utils.wrap(-totalHeight, totalHeight);
+    const wrapFn = gsap.utils.wrap(-totalDimension, totalDimension);
 
+    // Set initial positions
     divItems.forEach((child, i) => {
-      const y = i * totalItemHeight;
-      gsap.set(child, { y });
+      const position = i * totalItemDimension;
+      if (isHorizontal) {
+        gsap.set(child, { x: position });
+      } else {
+        gsap.set(child, { y: position });
+      }
     });
 
     const observer = Observer.create({
@@ -84,16 +104,25 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       onRelease: ({ target }) => {
         (target as HTMLElement).style.cursor = "grab";
       },
-      onChange: ({ deltaY, isDragging, event }) => {
-        const d = event.type === "wheel" ? -deltaY : deltaY;
-        const distance = isDragging ? d * 5 : d * 10;
+      onChange: ({ deltaY, deltaX, isDragging, event }) => {
+        // Determine delta based on direction
+        let delta;
+        if (isHorizontal) {
+          delta = event.type === "wheel" ? -(deltaX || deltaY) : (deltaX || deltaY);
+        } else {
+          delta = event.type === "wheel" ? -deltaY : deltaY;
+        }
+        
+        const distance = isDragging ? delta * 5 : delta * 10;
+        const property = isHorizontal ? "x" : "y";
+        
         divItems.forEach((child) => {
           gsap.to(child, {
             duration: 0.5,
             ease: "expo.out",
-            y: `+=${distance}`,
+            [property]: `+=${distance}`,
             modifiers: {
-              y: gsap.utils.unitize(wrapFn),
+              [property]: gsap.utils.unitize(wrapFn),
             },
           });
         });
@@ -102,15 +131,23 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     let rafId: number;
     if (autoplay) {
-      const directionFactor = autoplayDirection === "down" ? 1 : -1;
+      // Determine direction factor based on autoplayDirection
+      let directionFactor;
+      if (isHorizontal) {
+        directionFactor = autoplayDirection === "right" ? 1 : -1;
+      } else {
+        directionFactor = autoplayDirection === "down" ? 1 : -1;
+      }
+      
       const speedPerFrame = autoplaySpeed * directionFactor;
+      const property = isHorizontal ? "x" : "y";
 
       const tick = () => {
         divItems.forEach((child) => {
           gsap.set(child, {
-            y: `+=${speedPerFrame}`,
+            [property]: `+=${speedPerFrame}`,
             modifiers: {
-              y: gsap.utils.unitize(wrapFn),
+              [property]: gsap.utils.unitize(wrapFn),
             },
           });
         });
@@ -157,23 +194,34 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
     isTilted,
     tiltDirection,
     negativeMargin,
+    direction,
   ]);
-
   return (
     <>
-      <style>
-        {`
+      <style>        {`
           .infinite-scroll-wrapper {
             max-height: ${maxHeight};
+            width: ${direction === "horizontal" ? "100%" : width};
+            height: ${direction === "horizontal" ? "100%" : "auto"};
+            ${direction === "horizontal" ? `overflow-x: hidden;` : `overflow-y: hidden;`}
           }
 
           .infinite-scroll-container {
-            width: ${width};
+            ${direction === "horizontal" 
+              ? `display: flex; flex-direction: row; height: 100%; width: max-content; align-items: center;` 
+              : `width: ${width};`
+            }
+            cursor: grab;
           }
 
           .infinite-scroll-item {
-            height: ${itemMinHeight}px;
-            margin-top: ${negativeMargin};
+            ${direction === "horizontal" 
+              ? `width: ${itemMinWidth}px; margin-right: ${negativeMargin}; flex-shrink: 0; height: auto; max-height: 100%;`
+              : `height: ${itemMinHeight}px; margin-top: ${negativeMargin}; width: 100%;`
+            }
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         `}
       </style>

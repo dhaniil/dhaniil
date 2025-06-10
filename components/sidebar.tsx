@@ -50,15 +50,15 @@ export default function Sidebar(){
 
         gsap.to(sidebarPanel.current, {
             x: 0,
-            duration: 1,
-            ease: "power2.out"
+            duration: 0.5,
+            ease: "power2.inOut"
         })
     }
 
     const handleClose = () => {
         gsap.to(backdrop.current, {
             opacity: 0,
-            duration: 0.5,
+            duration: 1,
             ease: "power2.out",
             onComplete: () => {
                 gsap.set(backdrop.current, { visibility: "hidden" })

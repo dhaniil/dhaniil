@@ -40,3 +40,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.idea/inspectionProfiles/Project_Default.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/laznology.iml
+.idea/discord.xml
+.idea/.gitignore
+.idea/workspace.xml
