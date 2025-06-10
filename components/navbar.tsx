@@ -18,7 +18,7 @@ const navItems = [
   // },
   // {
   //   title: "Project",
-  //   href: "/project"
+  //   href: "/projects"
   // },
   {
     title: "Guestbook",
