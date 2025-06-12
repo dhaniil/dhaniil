@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Antonio, JetBrains_Mono } from "next/font/google";
+import { Geist, Antonio, JetBrains_Mono, Yuji_Hentaigana_Akari, Rampart_One, Noto_Serif_JP } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "@/components/navbar";
@@ -35,6 +35,27 @@ const antonio = Antonio({
   subsets: ["latin"],
 });
 
+const yujiHentaiganaAkari = Yuji_Hentaigana_Akari({
+  variable: "--font-yuji-hentaigana",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const rampartOne = Rampart_One({
+  variable: "--font-rampart-one",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const notoSerifJP = Noto_Serif_JP({
+  variable: "--font-noto-serif-jp",
+  display: "swap",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} ${antonio.variable} ${jetBrainsMono.variable} antialiased bg-background min-h-screen`}>
+      <body className={`${geistSans.className} ${antonio.variable} ${jetBrainsMono.variable} ${yujiHentaiganaAkari.variable} ${rampartOne.variable} ${notoSerifJP.variable} antialiased bg-background min-h-screen`}>
         {/* @ts-expect-error Server Component - next-themes is not yet fully typed for app router */}
         <ThemeProvider
           attribute="class"
