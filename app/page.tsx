@@ -3,22 +3,30 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { useRef } from "react"
 
+// Register GSAP
+gsap.registerPlugin(useGSAP)
+
 export default function Home() {
     const mainContainer = useRef<HTMLDivElement>(null)
     const teaTitle = useRef<HTMLDivElement>(null)
     const teaCup = useRef<HTMLDivElement>(null)
     const steam = useRef<HTMLDivElement>(null)
-    const teaLeaves = useRef<HTMLDivElement>(null)
-    const ceremony = useRef<HTMLDivElement>(null)
-    const quote = useRef<HTMLDivElement>(null)    
+    const teaLeaves = useRef<HTMLDivElement>(null)   
+     const ceremony = useRef<HTMLDivElement>(null)
+    const quote = useRef<HTMLDivElement>(null)
+    
     useGSAP(() => {
         
         const tl = gsap.timeline();
 
-        gsap.set([teaTitle.current, teaCup.current, steam.current, teaLeaves.current, ceremony.current, quote.current], {
-            opacity: 0,
-            scale: 0.8,
-        });
+        const elements = [teaTitle.current, teaCup.current, steam.current, teaLeaves.current, ceremony.current, quote.current].filter(Boolean);
+        
+        if (elements.length > 0) {
+            gsap.set(elements, {
+                opacity: 0,
+                scale: 0.8,
+            });
+        }
 
 
         tl.to(teaTitle.current, {
@@ -108,21 +116,23 @@ return (
             ref={mainContainer}
             className="h-full w-full bg-gray-50 overflow-hidden relative flex flex-col items-center justify-center"
         >
+            <div className={"absolute inset-0 flex items-center justify-center z-10"}>
+                <span className="block p-4 text-9xl text-gray-200 filter blur-[2px] font-jetbrains-mono">イラジー</span>
+            </div>
 
             <div className="absolute inset-0 opacity-5">
                 <div className="w-full h-full bg-gradient-to-br from-gray-200 via-white to-gray-100"></div>
             </div>
 
-
             <div 
                 ref={teaTitle}
                 className="text-center mb-16 z-20"
             >
-                <h1 className="text-8xl md:text-9xl font-yuji-hentaigana text-gray-800 mb-4 tracking-widest">
-                    あの夢をなぞって
+                <h1 className="text-6xl md:text-9xl font-antonio text-gray-800 mb-4 tracking-widest">
+                    Laznology
                 </h1>
-                <h2 className="text-2xl md:text-3xl font-noto-serif-jp text-gray-600 tracking-[0.3em]">
-                    My Mind is empyt rn
+                <h2 className="text-lg md:text-3xl font-noto-serif-jp text-gray-600 tracking-[0.3em]">
+                    !Dev, just people
                 </h2>
                 <div className="w-32 h-1 bg-gray-800 mx-auto mt-4"></div>
             </div>            
@@ -130,7 +140,7 @@ return (
 
             <div 
                 ref={steam}
-                className="absolute z-15"
+                className="absolute"
                 style={{ top: '45%' }}
             >
                 {[0, 1, 2, 3].map((index) => (
@@ -162,40 +172,12 @@ return (
                         }}
                     ></div>
                 ))}
-            </div>            {/* Ceremony Character with Classical Monochrome Style */}
-            {/* <div 
-                ref={ceremony}
-                className="text-center mt-20 z-20"
-            >
-                <div className="text-6xl font-yuji-hentaigana text-gray-900 mb-4">一期一会</div>
-                <div className="text-lg font-noto-serif-jp text-gray-600 tracking-[0.25em]">ICHIGO ICHIE</div>
-            </div> */}
+            </div>                       
 
-            {/* Quote with Philosophical Touch */}
-            <div 
-                ref={quote}
-                className="absolute bottom-16 text-center z-20 px-4"
-            >
-                {/* <div className="text-xl font-noto-serif-jp text-gray-800 mb-2">
-                    "心を込めた一杯の茶"
-                </div> */}
-                <div className="text-sm font-serif text-gray-500 tracking-wider">
-                    A cup of coffe prepared highest inspiration :v
-                </div>
-            </div>            
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 writing-vertical-rl text-2xl font-noto-serif-jp text-gray-700 opacity-70 tracking-[0.5em] z-10">
-                みちしるべ
-
-            </div>
-            <div className="absolute right-8 top-50 transform -translate-y-1/2 writing-vertical-rl text-lg font-noto-serif-jp text-gray-700 opacity-70 tracking-[0.5em] z-10">
-                <p>Semua judul lagu buat test :D</p>
-
-            </div>
-
-            <div className="absolute top-4 left-4 w-10 h-10 border-l-4 border-t-4 border-gray-800 z-30 opacity-70"></div>
-            <div className="absolute top-4 right-4 w-10 h-10 border-r-4 border-t-4 border-gray-800 z-30 opacity-70"></div>
-            <div className="absolute bottom-4 left-4 w-10 h-10 border-l-4 border-b-4 border-gray-800 z-30 opacity-70"></div>
-            <div className="absolute bottom-4 right-4 w-10 h-10 border-r-4 border-b-4 border-gray-800 z-30 opacity-70"></div>
+            <div className="absolute top-4 left-4 w-10 h-10 border-l-4 border-t-4 border-gray-800  opacity-70"></div>
+            <div className="absolute top-4 right-4 w-10 h-10 border-r-4 border-t-4 border-gray-800  opacity-70"></div>
+            <div className="absolute bottom-4 left-4 w-10 h-10 border-l-4 border-b-4 border-gray-800  opacity-70"></div>
+            <div className="absolute bottom-4 right-4 w-10 h-10 border-r-4 border-b-4 border-gray-800  opacity-70"></div>
             
             <div className="absolute inset-0 opacity-5 pointer-events-none z-0">
                 <div className="w-full h-full" style={{
@@ -204,20 +186,6 @@ return (
                 }}></div>
             </div>
             
-
-            <div className="absolute left-10 bottom-20 z-10">
-                <div className="transform  opacity-30">
-                    <p className="font-yuji-hentaigana text-6xl text-gray-800 tracking-wide">
-                        イレイジー
-                    </p>
-                    <p>ilazer</p>
-                </div>
-            </div>
-            
-
-            <div className="absolute inset-0 z-5 opacity-5 mix-blend-overlay pointer-events-none">
-                <div className="w-full h-full bg-noise-pattern">Test</div>
-            </div>
         </div>
     )
 }
