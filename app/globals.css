@@ -38,6 +38,19 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* Japanese Fonts */
+.font-yuji-hentaigana {
+  font-family: var(--font-yuji-hentaigana);
+}
+
+.font-rampart-one {
+  font-family: var(--font-rampart-one);
+}
+
+.font-noto-serif-jp {
+  font-family: var(--font-noto-serif-jp);
+}
+
 @layer base {
   * {
     @apply border-border;

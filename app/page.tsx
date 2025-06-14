@@ -2,152 +2,190 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { useRef } from "react"
-import { ScrollTrigger, SplitText } from "gsap/all"
-import BgTechStack from "@/components/bg-tech-stack"
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText)
+// Register GSAP
+gsap.registerPlugin(useGSAP)
 
 export default function Home() {
-    const text1 = useRef<HTMLHeadingElement>(null)
-    const text2 = useRef<HTMLHeadingElement>(null)
-    const text3 = useRef<HTMLParagraphElement>(null)
-    const text4 = useRef<HTMLAnchorElement>(null)
-    const detail1 = useRef<HTMLDivElement>(null)
-    const catEmoji = useRef<HTMLDivElement>(null)
-    const cat = useRef<HTMLSpanElement>(null)
-
-    const handleMouseEnter = () => {
-        const tlBlink = gsap.timeline()
-        tlBlink
-            .to(detail1.current, {
-                backgroundColor: "#000",
-                color: "#fff",
-                duration: 0.1,
-                repeat: 3,
-                yoyo: true,
-            })
-            .to(detail1.current, {
-                backgroundColor: "rgba(107,114,128,0.1)",
-                color: "rgb(156,163,175)",
-                duration: 0.2,
-                ease: "power2.out",
-            })
-    }
-
+    const mainContainer = useRef<HTMLDivElement>(null)
+    const teaTitle = useRef<HTMLDivElement>(null)
+    const teaCup = useRef<HTMLDivElement>(null)
+    const steam = useRef<HTMLDivElement>(null)
+    const teaLeaves = useRef<HTMLDivElement>(null)   
+     const ceremony = useRef<HTMLDivElement>(null)
+    const quote = useRef<HTMLDivElement>(null)
+    
     useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: '#section-1',
-                start: 'top 80%',
-            }
+        
+        const tl = gsap.timeline();
+
+        const elements = [teaTitle.current, teaCup.current, steam.current, teaLeaves.current, ceremony.current, quote.current].filter(Boolean);
+        
+        if (elements.length > 0) {
+            gsap.set(elements, {
+                opacity: 0,
+                scale: 0.8,
+            });
+        }
+
+
+        tl.to(teaTitle.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.8,
+            ease: "back.out(1.4)",
         })
 
-        const split1 = SplitText.create(text1.current, { type: 'chars' })
-        const split2 = SplitText.create(text2.current, { type: 'words' })
 
-        tl.from(split1.chars, {
-            y: 50,
-            autoAlpha: 0,
-            stagger: 0.04,
-            duration: 0.6,
-            ease: 'back.out(1.5)',
+        .to(teaCup.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+        }, "-=0.7")
+
+
+        .to(steam.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "sine.inOut",
+        }, "-=0.8")
+
+
+        .to(teaLeaves.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        }, "-=0.5")
+
+
+        .to(ceremony.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "power2.out",
+        }, "-=0.3")
+
+        .to(quote.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 1.3,
+            ease: "power1.out",
+        }, "-=0.2")        
+        gsap.to(steam.current, {
+            y: -35,
+            opacity: 0.15,
+            duration: 3,
+            repeat: -1,
+            ease: "sine.inOut",
         })
-            .from(split2.words, {
-                scale: 0,
-                autoAlpha: 0,
-                stagger: 0.15,
-                duration: 0.7,
-                ease: 'elastic.out(1, 0.3)',
-            }, '-=0.3')
-            .from(text3.current, {
-                y: 30,
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power2.out',
-            }, '-=0.4')
-            .from(text4.current, {
-                scale: 0,
-                autoAlpha: 0,
-                duration: 0.5,
-                ease: 'back.out(1.7)',
-            }, '-=0.3')
 
-        gsap.from(catEmoji.current, {
-            scale: 0.8,
-            autoAlpha: 0,
+        gsap.to(teaCup.current, {
+            y: -4,
+            rotation: 1,
+            duration: 5,
             repeat: -1,
             yoyo: true,
-            duration: 1.2,
-            ease: 'sine.inOut',
-            delay: 1.5,
-        })
+            ease: "sine.inOut",
+        })        
 
-        gsap.to(cat, {
-            y: -10,
-            rotation: 5,
-            duration: 0.8,
-            ease: "power1.inOut",
+
+        gsap.to(teaLeaves.current, {
+            y: -12,
+            x: 3,
+            rotation: 1.5,
+            duration: 4,
+            repeat: -1,
             yoyo: true,
-            repeat: -1
+            ease: "sine.inOut",
         });
-    })
 
-    return (
-        <div className="flex flex-col lg:flex-row h-full w-full overflow-hidden relative">
-            {/* Fixed Cat Emoji */}
-            <div ref={catEmoji} className="fixed bottom-10 right-10 text-gray-300 z-20">
-                <span className="font-jetbrains text-7xl">ฅ^•ﻌ•^ฅ</span>
-            </div>
-            {/* Desktop Ornaments */}
-            <div className="hidden md:block fixed top-90 left-50 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg">
-                <span className="font-light text-xl">&lt; &gt; ~/$ git commit -m &quot;dev&quot; &lt; /&gt;</span>
-            </div>
-            <div onMouseEnter={handleMouseEnter} ref={detail1} className="hidden md:block fixed bottom-80 left-140 text-gray-400 -skew-y-6 bg-gray-500/10 p-1 rounded-lg">
-                <span className="font-light text-xl">&lt; &gt; ~/$ npm run build &lt; /&gt;</span>
-            </div>
-            <div className="hidden md:block fixed bottom-15 left-10 text-zinc-700 -z-10">
-                <span className="font-light text-9xl font-antonio">~$ ./git init</span>
-            </div>
-            {/* Mobile Ornaments */}
-            <div className="block md:hidden fixed top-60 left-8 text-gray-400 -skew-7 bg-gray-500/10 p-1 rounded-lg text-xs">
-                <span className="font-light">&lt; git commit -m &quot;dev&quot; &gt;</span>
-            </div>
-            <div className="block md:hidden fixed bottom-50 right-8 text-gray-400 skew-y-6 bg-gray-500/10 p-1 rounded-lg text-xs">
-                <span className="font-light">&lt; npm run build &gt;</span>
-            </div>
-            <div className="block md:hidden fixed top-8 right-4 text-zinc-700 -z-10">
-                <span className="font-light text-2xl font-antonio">~$ ./init</span>
+        gsap.to(teaTitle.current, {
+            filter: "brightness(1.05)",
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+        });
+}, [])
+
+return (        
+        <div 
+            ref={mainContainer}
+            className="h-full w-full bg-gray-50 overflow-hidden relative flex flex-col items-center justify-center"
+        >
+            <div className={"absolute inset-0 flex items-center justify-center z-10"}>
+                <span className="block p-4 text-9xl text-gray-200 filter blur-[2px] font-jetbrains-mono">イラジー</span>
             </div>
 
-            <div className="block md:hidden fixed bottom-20 left-4 text-gray-300">
-            <span className="font-light text-8xl font-jetbrains">
-                {new Date().getFullYear()}
-            </span>
+            <div className="absolute inset-0 opacity-5">
+                <div className="w-full h-full bg-gradient-to-br from-gray-200 via-white to-gray-100"></div>
             </div>
 
-            {/* Section 1: Hero */}
-            <div id="section-1" className="flex w-full items-center justify-center min-h-screen px-6 lg:px-12">
-                <div className="relative flex flex-col text-center lg:text-left">
-                    <h1 ref={text1} className="font-antonio uppercase text-5xl md:text-7xl lg:text-9xl tracking-tight">
-                        Kodenee
-                    </h1>
-                    <h2 ref={text2} className="font-flaj mt-4 text-3xl md:text-5xl lg:text-6xl tracking-wide">
-                        Programinyaan
-                        <span ref={cat} className="block md:inline font-antonio text-xl md:text-2xl">ヾ(｡･ω･｡)</span>
-                    </h2>
-                    <p ref={text3} className="font-fjalla tracking-wide text-neutral-500 uppercase text-base md:text-xl flex flex-col md:flex-row items-center gap-2 mt-4">
-                        Are you curious about my code?{' '}
-                        <a ref={text4} href="/projects" className="font-antonio font-bold hover:scale-105 transition-transform">
-                            Click here
-                        </a>
-                    </p>
-                </div>
+            <div 
+                ref={teaTitle}
+                className="text-center mb-16 z-20"
+            >
+                <h1 className="text-6xl md:text-9xl font-antonio text-gray-800 mb-4 tracking-widest">
+                    Laznology
+                </h1>
+                <h2 className="text-lg md:text-3xl font-noto-serif-jp text-gray-600 tracking-[0.3em]">
+                    !Dev, just people
+                </h2>
+                <div className="w-32 h-1 bg-gray-800 mx-auto mt-4"></div>
+            </div>            
+
+
+            <div 
+                ref={steam}
+                className="absolute"
+                style={{ top: '45%' }}
+            >
+                {[0, 1, 2, 3].map((index) => (
+                    <div 
+                        key={index}
+                        className="w-2 h-10 bg-gray-300 opacity-40 absolute"
+                        style={{
+                            left: `${index * 8 - 10}px`,
+                            height: `${8 + index * 2}px`,
+                            borderRadius: '50px',
+                            filter: 'blur(1px)'
+                        }}
+                    ></div>
+                ))}
             </div>
 
-            {/* Section 2: Tech Stack */}
-            <div id="section-2" className="relative flex w-full h-screen items-center justify-center bg-gradient-to-r from-white/10 to-transparent backdrop-blur-sm">
-                <BgTechStack />
+            <div 
+                ref={teaLeaves}
+                className="flex justify-center space-x-4 z-15 mt-6"
+            >
+                {[0, 1, 2, 3, 4, 5].map((index) => (
+                    <div 
+                        key={index}
+                        className="w-3 h-7 bg-gray-800 transform"
+                        style={{
+                            borderRadius: '50% 10px 50% 10px',
+                            transform: `rotate(${index * 15 - 40}deg)`,
+                            opacity: 0.7 - (index * 0.08)
+                        }}
+                    ></div>
+                ))}
+            </div>                       
+
+            <div className="absolute top-4 left-4 w-10 h-10 border-l-4 border-t-4 border-gray-800  opacity-70"></div>
+            <div className="absolute top-4 right-4 w-10 h-10 border-r-4 border-t-4 border-gray-800  opacity-70"></div>
+            <div className="absolute bottom-4 left-4 w-10 h-10 border-l-4 border-b-4 border-gray-800  opacity-70"></div>
+            <div className="absolute bottom-4 right-4 w-10 h-10 border-r-4 border-b-4 border-gray-800  opacity-70"></div>
+            
+            <div className="absolute inset-0 opacity-5 pointer-events-none z-0">
+                <div className="w-full h-full" style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px)',
+                    backgroundSize: '20px 20px'
+                }}></div>
             </div>
+            
         </div>
     )
 }
