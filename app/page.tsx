@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { useRef } from "react"
 
-// Register GSAP
+
 gsap.registerPlugin(useGSAP)
 
 export default function Home() {
@@ -173,11 +173,6 @@ return (
                     ></div>
                 ))}
             </div>                       
-
-            <div className="absolute top-4 left-4 w-10 h-10 border-l-4 border-t-4 border-gray-800  opacity-70"></div>
-            <div className="absolute top-4 right-4 w-10 h-10 border-r-4 border-t-4 border-gray-800  opacity-70"></div>
-            <div className="absolute bottom-4 left-4 w-10 h-10 border-l-4 border-b-4 border-gray-800  opacity-70"></div>
-            <div className="absolute bottom-4 right-4 w-10 h-10 border-r-4 border-b-4 border-gray-800  opacity-70"></div>
             
             <div className="absolute inset-0 opacity-5 pointer-events-none z-0">
                 <div className="w-full h-full" style={{

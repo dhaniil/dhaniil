@@ -5,7 +5,8 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/footer";
-import PageIndicatorsWrapper from "@/components/page-indicators-wrapper";
+import PageIndicatorsWrapper from "@/components/page-indicators-wrapper"
+import CornerDecorationsWrapper from "@/components/corner-decorations-wrapper"
 
 const defaultUrl = process.env.NEXT_PUBLIC_APP_URL
   ? `https://${process.env.NEXT_PUBLIC_APP_URL}`
@@ -83,11 +84,13 @@ export default function RootLayout({
             <div className="flex-1 border rounded-xl border-border flex flex-col overflow-hidden relative">
               <div className="p-4 bg-background border-b border-border flex-shrink-0">
                 <Navbar />
-              </div>
-              <main className="flex-1 overflow-hidden">
-                <div className="h-full overflow-y-auto scrollable-content">
+              </div>              
+              <main className="flex-1 overflow-hidden relative">
+                <div className="absolute inset-0 z-20 pointer-events-none">
                   <PageIndicatorsWrapper />
-                  
+                  <CornerDecorationsWrapper />
+                </div>
+                <div className="h-full overflow-y-auto scrollable-content relative">
                   {children}
                 </div>
               </main>
