@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import type { Guestbook } from "@/types/guestbook";
 gsap.registerPlugin(ScrollTrigger)
 
-export default function GuestbookPage(){
+export default function GuestbookPage(){  
   const [guestbooks, setGuestbooks] = useState<Guestbook[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,8 +16,7 @@ export default function GuestbookPage(){
   const mainRef = useRef<HTMLDivElement>(null);
   const guestbookWrapperRef = useRef<HTMLDivElement>(null);
   const guestbookListRef = useRef<HTMLDivElement>(null);
-
-
+  
   useEffect(() => {
     const loadGuestbooks = async () => {
       setLoading(true);
@@ -28,14 +27,14 @@ export default function GuestbookPage(){
       } catch (err) {
         console.error("Failed to fetch guestbooks:", err);
         setError("Failed to load guestbooks.");
-        toast.error(error);
+        if (error) toast.error(error);
       } finally {
         setLoading(false);
       }
     };
 
     loadGuestbooks();
-  }, [])
+  }, [error])
 
   useGSAP(() => {
 
@@ -54,8 +53,6 @@ export default function GuestbookPage(){
     });
   })
 
-
-
   useGSAP(() => {
     const textTimeline = gsap.timeline();
     gsap.to(guestbookWrapperRef.current, {
@@ -71,7 +68,6 @@ export default function GuestbookPage(){
         anticipatePin: 1,
         markers: true,
         onUpdate: (self) => {
-          console.log("Scroll progress Guestbook:", self.progress.toFixed(2));
         if(self.progress === 1) {
           textTimeline.to(".greetings", {
             delay: 0.1,

@@ -3,8 +3,7 @@ import { useRef, useState} from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { Textarea } from "@/components/ui/textarea"
-import { cn } from "@/lib/utils"
-import { StampIcon, MapPinIcon, MailIcon } from "lucide-react"
+import { MapPinIcon} from "lucide-react"
 
 const data = {
     name: "Sender",
@@ -32,11 +31,10 @@ export default function Tegami(){
         }
     })
     
-    useGSAP(() => {
-        const tl = gsap.timeline()
+    useGSAP(() => {        const tl = gsap.timeline()
         if(envelopeRef.current && flapRef.current && tegamiRef.current){
-            isOpen 
-                ? tl.to(flapRef.current, {
+            if (isOpen) {
+                tl.to(flapRef.current, {
                     rotateX: 180,
                     duration: 0.3,
                     ease: "power2.in"
@@ -54,7 +52,8 @@ export default function Tegami(){
                     duration: 0.5,
                     ease: "power2.inOut"
                   }, "+=0.3")
-                : tl.to(tegamiRef.current, {
+            } else {
+                tl.to(tegamiRef.current, {
                     y: 0,
                     scale: 0.8,
                     opacity: 0,
@@ -71,6 +70,7 @@ export default function Tegami(){
                     duration: 0.3,
                     ease: "power2.out"
                   }, "<0.3")
+            }
         }
     }, [isOpen])
     
